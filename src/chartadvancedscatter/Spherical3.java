@@ -8,11 +8,7 @@ public class Spherical3 {
 	public double el;
 
 	public Spherical3 () {
-            this.set(0, 0, 0);
-	}
-
-	public Spherical3 (double az, double el, double r) {
-		this.set(az, el, r);
+            this.setFromRads(0, 0, 0);
 	}
 
 	public Spherical3 (final Spherical3 inVector) {
@@ -23,22 +19,29 @@ public class Spherical3 {
 		return "(" + az + "," + el + "," + r + ")";
 	}
 	
-	public Spherical3 set (double az, double el, double r) {
-		this.az = az;
-		this.el = el;
+	public Spherical3 setFromDegrees (double az, double el, double r) {
+		this.az = Math.toRadians(az);
+		this.el = Math.toRadians(el);
 		this.r = r;
 		return this;
 	}
 
+        public Spherical3 setFromRads (double az, double el, double r) {
+            this.az = az;
+            this.el = el;
+            this.r = r;
+            return this;
+	}
+
 	public Spherical3 set (final Spherical3 inVector) {
-		return this.set(inVector.az, inVector.el, inVector.r);
+		return this.setFromRads(inVector.az, inVector.el, inVector.r);
 	}
 
 	public Spherical3 setFromVector3 (final Vector3 inV) {
             double range = Math.sqrt((inV.x*inV.x)+(inV.y*inV.y)+(inV.z*inV.z));
             double elevation = Math.atan(inV.z/inV.x);
             double azimuth = Math.asin(inV.y/range);
-            return this.set(azimuth, elevation, range);
+            return this.setFromRads(azimuth, elevation, range);
 	}
 
 	public Spherical3 copy () {
